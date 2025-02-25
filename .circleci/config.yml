@@ -84,7 +84,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
+                - workspace_pc
 
       - deploy_prod:
           requires:
