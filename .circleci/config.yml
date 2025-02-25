@@ -57,6 +57,13 @@ jobs:
           at: .
       - run: echo "Deploying to development environment..."
 
+  deploy_tests:
+    executor: node/default
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo "Deploying to tests environment..."
+
   deploy_prod:
     executor: node/default
     steps:
@@ -84,7 +91,15 @@ workflows:
           filters:
             branches:
               only:
-                - workspace_pc
+                - workspace_pc_dev
+
+      - deploy_tests:
+          requires:
+            - unit-tests
+          filters:
+            branches:
+              only:
+                - workspace_pc_tests
 
       - deploy_prod:
           requires:
@@ -92,4 +107,4 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - workspace_pc
